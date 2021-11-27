@@ -20,6 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="5.0.10" />
+    <PackageReference Include="Microsoft.ML" Version="1.6.0" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="serilog.aspnetcore" Version="4.1.0" />
