@@ -3,6 +3,7 @@ using Infrastructure.Context;
 using Infrastructure.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ML;
 using Prometheus;
 using Serilog;
 using System.Reflection;
@@ -28,9 +29,15 @@ namespace Api
                 opts.Filters.Add(typeof(AppExceptionFilterAttribute));
             });
 
+            builder.Services.AddSingleton(_ =>
+            {
+                MLContext mlContext = new MLContext(seed: 0);
+                return mlContext;
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddMediatR(Assembly.Load("Application"), typeof(Program).Assembly);
+            builder.Services.AddMediatR(Assembly.Load("Application"), typeof(StartUp).Assembly);
             builder.Services.AddAutoMapper(Assembly.Load("Application"));
 
             builder.Services.AddDbContext<PersistenceContext>(opt =>

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Ports
 {
-    public interface IImageSorter
+    public interface IImageSorterRepository
     {
         void GenerateModel();
-        void ClassifySingleImage();
     }
 }

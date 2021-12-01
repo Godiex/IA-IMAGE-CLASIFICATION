@@ -1,16 +1,19 @@
+using Application.Commands;
+using Domain.Entities;
 using Domain.Services;
 using MediatR;
 
-namespace Application.Person.Commands {
+namespace Application.Person.Commands
+{
 
     public class ModelCreateHandler : IRequestHandler<ModelCreateCommand, ModelCreateDto>
     {
 
-        private readonly VehicleEntryRegistrationService _VehicleEntryRegistrationService;
+        private readonly ImageSorterService _ImageSorterService;
 
-        public ModelCreateHandler(VehicleEntryRegistrationService vehicleEntryRegistrationService)
+        public ModelCreateHandler(ImageSorterService imageSorterService)
         {
-            _VehicleEntryRegistrationService = vehicleEntryRegistrationService ?? throw new ArgumentNullException(nameof(vehicleEntryRegistrationService));
+            _ImageSorterService = imageSorterService ?? throw new ArgumentNullException(nameof(imageSorterService));
         }
 
 
@@ -18,11 +21,9 @@ namespace Application.Person.Commands {
         {
             _ = request ?? throw new ArgumentNullException(nameof(request), "request object needed to handle this task");
 
-            var cellVehicle = await _VehicleEntryRegistrationService.RegisterEntranceToParkingAsync(
-                 new Domain.Entities.Vehicle(request.Type, request.Plaque, request.Cylinders)
-             );
+            _ImageSorterService.TrainModel();
 
-            return new ModelCreateDto {CellId = cellVehicle.CellId };
+            return new ModelCreateDto();
         }
     }
 }

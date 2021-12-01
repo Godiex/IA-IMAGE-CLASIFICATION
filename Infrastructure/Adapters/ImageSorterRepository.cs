@@ -5,7 +5,7 @@ using Microsoft.ML;
 
 namespace Infrastructure.Adapters
 {
-    public class ImageSorter : IImageSorter
+    public class ImageSorterRepository : IImageSorterRepository
     {
         private static string AppPath => Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
         private const  string BaseDatasetsRelativePath = @"../../../Datos";
@@ -15,12 +15,6 @@ namespace Infrastructure.Adapters
         private static string TrainDataRelativePath = $"{BaseDatasetsRelativePath}/tags.tsv";
         private static string TrainDataPath = GetAbsolutePath(TrainDataRelativePath);
         private static string InceptionTensorFlowModel = Path.Combine(ModelPath, "inception", "tensorflow_inception_graph.pb");
-
-
-        public void ClassifySingleImage()
-        {
-            throw new NotImplementedException();
-        }
 
         public void GenerateModel()
         {

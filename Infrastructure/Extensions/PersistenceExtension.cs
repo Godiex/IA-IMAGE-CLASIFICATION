@@ -10,6 +10,7 @@ namespace Infrastructure.Extensions {
     public static class PersistenceExtensions {
         public static IServiceCollection AddPersistence(this IServiceCollection svc, IConfiguration config) {
             svc.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            svc.AddTransient(typeof(IImageSorterRepository), typeof(ImageSorterRepository));
             svc.AddTransient<IDbConnection>((sp) => new SqlConnection(config.GetConnectionString("database")));
             return svc;
         }

@@ -1,11 +1,6 @@
-namespace Application.Person.Commands
+namespace Application.Commands
 {
 
-    public class ModelCreateDto
-    {
-        public int CellId { get; set; }
-        
-    }
-
+    public class ModelCreateDto { }
 
 }
