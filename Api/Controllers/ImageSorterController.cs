@@ -17,6 +17,10 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ModelCreateDto> PostAsync(ModelCreateCommand request) => await _mediator.Send(request);
 
+
+        [HttpPost("ClasifyImage")]
+        public async Task<SorterImageDto> ClasifyImageAsync([FromForm] SorterImageCommand request) => await _mediator.Send(request);
+
     }
 }
 

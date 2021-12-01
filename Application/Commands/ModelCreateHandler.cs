@@ -1,9 +1,7 @@
-using Application.Commands;
-using Domain.Entities;
 using Domain.Services;
 using MediatR;
 
-namespace Application.Person.Commands
+namespace Application.Commands
 {
 
     public class ModelCreateHandler : IRequestHandler<ModelCreateCommand, ModelCreateDto>
@@ -25,5 +23,6 @@ namespace Application.Person.Commands
 
             return new ModelCreateDto();
         }
+
     }
 }

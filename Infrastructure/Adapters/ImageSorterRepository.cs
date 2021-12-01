@@ -2,19 +2,37 @@
 using Domain.Ports;
 using Domain.Structs;
 using Microsoft.ML;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Infrastructure.Adapters
 {
     public class ImageSorterRepository : IImageSorterRepository
     {
-        private static string AppPath => Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-        private const  string BaseDatasetsRelativePath = @"../../../Datos";
-        private static string ModelRelativePath = $"{BaseDatasetsRelativePath}/ImageSorterModel.zip";
-        private static string ModelPath = GetAbsolutePath(ModelRelativePath);
-        private static string ImagesFolder = GetAbsolutePath("/assets/images");
-        private static string TrainDataRelativePath = $"{BaseDatasetsRelativePath}/tags.tsv";
-        private static string TrainDataPath = GetAbsolutePath(TrainDataRelativePath);
-        private static string InceptionTensorFlowModel = Path.Combine(ModelPath, "inception", "tensorflow_inception_graph.pb");
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private string BasePath = default!;
+        public string ModelPath { get; set; } = default!;
+        private string ImagesFolder = default!;
+        private string InceptionTensorFlowModel = default!;
+        private string TrainDataPath = default!;
+
+        public ImageSorterRepository(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+            BasePath = Path.Combine($"{hostingEnvironment.ContentRootPath}", "Data");
+            SetPathsOfModel();
+        }
+
+        private void SetPathsOfModel()
+        {
+            if (BasePath != null) 
+            {
+                ModelPath = GetAbsolutePath("ImageSorterModel.zip");
+                ImagesFolder = GetAbsolutePath("assets/images");
+                TrainDataPath = GetAbsolutePath("assets/tsv/tags.tsv");
+                InceptionTensorFlowModel = GetAbsolutePath("assets/inception/tensorflow_inception_graph.pb");
+
+            }
+        }
 
         public void GenerateModel()
         {
@@ -34,10 +52,19 @@ namespace Infrastructure.Adapters
             mlContext.Model.Save(trainedModel, trainingDataView.Schema, ModelPath);
         }
 
-        public static string GetAbsolutePath(string relativePath)
+        private string GetAbsolutePath(string relativePath)
         {
-            string fullPath = Path.Combine(AppPath, relativePath);
-            return fullPath;
+            return Path.Combine(BasePath, relativePath);
+        }
+
+        public string GetModelPath()
+        {
+            return ModelPath;
+        }
+
+        public string GetImageClasificationFolder()
+        {
+            return ImagesFolder;
         }
 
     }

@@ -8,6 +8,9 @@ namespace Domain.Ports
 {
     public interface IImageSorterRepository
     {
+        string GetModelPath();
+        string GetImageClasificationFolder();
         void GenerateModel();
+
     }
 }

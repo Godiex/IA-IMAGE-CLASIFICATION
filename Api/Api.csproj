@@ -40,4 +40,8 @@
     <InternalsVisibleTo Include="Api.Tests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\ImagesClasification\" />
+  </ItemGroup>
+
 </Project>

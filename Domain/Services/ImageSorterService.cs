@@ -19,10 +19,9 @@ namespace Domain.Services
 
         public ImageSorterService(MLContext context, IImageSorterRepository imageSorterRepository)
         {
-            imageSorterRepository.GenerateModel();
             _context = context;
             var cwp = Path.Combine(Directory.GetCurrentDirectory(), "ImageSorterModel.zip");
-            _trainedModel = _context.Model.Load(cwp, out var modelInputSchema);
+            _trainedModel = _context.Model.Load(imageSorterRepository.GetModelPath(), out var modelInputSchema);
             _engine = _context.Model.CreatePredictionEngine<ImageData, ImagePrediction>(_trainedModel);
             _imageSorterRepository = imageSorterRepository;
 

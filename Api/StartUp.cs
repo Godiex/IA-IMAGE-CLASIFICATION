@@ -3,6 +3,7 @@ using Infrastructure.Context;
 using Infrastructure.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.ML;
 using Prometheus;
 using Serilog;
@@ -15,9 +16,10 @@ namespace Api
         public static WebApplication StartApp(string[] args) 
         {
             var builder = WebApplication.CreateBuilder(args);
+            
             ConfigureServices(builder);
             var app = builder.Build();
-            Configure(app);
+            Configure(app, builder.Environment);
             return app;
         }
 
@@ -69,7 +71,7 @@ namespace Api
 
         }
 
-        private static void Configure(WebApplication app) 
+        private static void Configure(WebApplication app, IWebHostEnvironment env) 
         {
             Log.Logger = new LoggerConfiguration().Enrich.FromLogContext()
                 .WriteTo.Console().CreateLogger();
@@ -81,6 +83,21 @@ namespace Api
             }
 
             app.UseCors("CorsPolicy");
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.ContentRootPath, "Data")),
+                RequestPath = "/Data"
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.ContentRootPath, "Data")),
+                RequestPath = "/Data"
+            });
 
             app.UseRouting().UseHttpMetrics().UseEndpoints(endpoints =>
             {
