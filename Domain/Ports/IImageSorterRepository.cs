@@ -10,6 +10,7 @@ namespace Domain.Ports
     {
         string GetModelPath();
         string GetImageClasificationFolder();
+        string GetDataTrainPath();
         void GenerateModel();
 
     }

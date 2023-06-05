@@ -11,9 +11,9 @@ namespace Infrastructure.Adapters
         private readonly IHostingEnvironment _hostingEnvironment;
         private string BasePath = default!;
         public string ModelPath { get; set; } = default!;
-        private string ImagesFolder = default!;
-        private string InceptionTensorFlowModel = default!;
-        private string TrainDataPath = default!;
+        public string ImagesFolder = default!;
+        public string InceptionTensorFlowModel = default!;
+        public string TrainDataPath = default!;
 
         public ImageSorterRepository(IHostingEnvironment hostingEnvironment)
         {
@@ -65,6 +65,11 @@ namespace Infrastructure.Adapters
         public string GetImageClasificationFolder()
         {
             return ImagesFolder;
+        }
+        
+        public string GetDataTrainPath()
+        {
+            return TrainDataPath;
         }
 
     }

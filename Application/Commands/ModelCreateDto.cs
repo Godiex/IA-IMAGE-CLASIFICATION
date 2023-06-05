@@ -1,6 +1,8 @@
 namespace Application.Commands
 {
 
-    public class ModelCreateDto { }
+    public record ModelCreateDto(
+        string Message
+        );
 
 }

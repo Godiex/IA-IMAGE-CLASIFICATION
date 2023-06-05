@@ -15,7 +15,7 @@ namespace Api.Controllers
         public ImageSorterController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
-        public async Task<ModelCreateDto> PostAsync(ModelCreateCommand request) => await _mediator.Send(request);
+        public async Task<ModelCreateDto> PostAsync([FromForm] ModelCreateCommand request) => await _mediator.Send(request);
 
 
         [HttpPost("ClasifyImage")]
