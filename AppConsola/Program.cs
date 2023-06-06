@@ -1,7 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Structs;
 using Microsoft.ML;
-using Microsoft.ML.Data;
 
 string currentDirectory = Directory.GetCurrentDirectory();
 string solutionDirectory = Path.GetFullPath(Path.Combine(currentDirectory, @"..\..\..\..\"));
@@ -11,18 +9,14 @@ string tsvPath = Path.Combine(solutionDirectory, "Api/Data/assets/tsv/test-tags.
 
 MLContext mlContext = new MLContext(seed: 0);
 
-// Cargar el modelo guardado
 ITransformer trainedModel = mlContext.Model.Load(modelPath, out var modelSchema);
 
 IDataView testDataView = mlContext.Data.LoadFromTextFile<ImageData>(path: tsvPath, hasHeader: false);
 
-// Aplicar el modelo a los datos de prueba
 var transformedTestData = trainedModel.Transform(testDataView);
 
-// Calcular métricas de evaluación
 var metrics = mlContext.MulticlassClassification.Evaluate(transformedTestData, labelColumnName: "LabelKey", predictedLabelColumnName: "PredictedLabel");
 
-// O mostrar las métricas en la consola
 Console.WriteLine($"Micro Accuracy: {metrics.MacroAccuracy}");
 Console.WriteLine($"Macro Accuracy: {metrics.MicroAccuracy}");
 Console.WriteLine($"Confusion Matrix: {metrics.ConfusionMatrix.NumberOfClasses}");
