@@ -17,8 +17,6 @@ var transformedTestData = trainedModel.Transform(testDataView);
 
 var metrics = mlContext.MulticlassClassification.Evaluate(transformedTestData, labelColumnName: "LabelKey", predictedLabelColumnName: "PredictedLabel");
 
-Console.WriteLine($"Micro Accuracy: {metrics.MacroAccuracy}");
-Console.WriteLine($"Macro Accuracy: {metrics.MicroAccuracy}");
 Console.WriteLine($"Confusion Matrix: {metrics.ConfusionMatrix.NumberOfClasses}");
 foreach (var item in metrics.ConfusionMatrix.PerClassPrecision)
 {
@@ -31,3 +29,15 @@ foreach (var item in metrics.PerClassLogLoss)
 }
 
 Console.WriteLine($"Log Loss: {metrics.LogLoss}");
+
+IEnumerable<ImagePrediction> imagePredictionData = mlContext.Data.CreateEnumerable<ImagePrediction>(transformedTestData, true);
+DisplayResults(imagePredictionData);
+
+
+void DisplayResults(IEnumerable<ImagePrediction> imagePredictionData)
+{
+    foreach (ImagePrediction prediction in imagePredictionData)
+    {
+        Console.WriteLine($"Image: {Path.GetFileName(prediction.ImagePath)} predicted as: {prediction.PredictedLabelValue} with score: {prediction.Score?.Max()} ");
+    }
+}
