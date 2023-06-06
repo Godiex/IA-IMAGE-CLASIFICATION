@@ -14,6 +14,7 @@ namespace Infrastructure.Adapters
         public string ImagesFolder = default!;
         public string InceptionTensorFlowModel = default!;
         public string TrainDataPath = default!;
+        public string TestDataPath = default!;
 
         public ImageSorterRepository(IHostingEnvironment hostingEnvironment)
         {
@@ -29,6 +30,7 @@ namespace Infrastructure.Adapters
                 ModelPath = GetAbsolutePath("ImageSorterModel.zip");
                 ImagesFolder = GetAbsolutePath("assets/images");
                 TrainDataPath = GetAbsolutePath("assets/tsv/tags.tsv");
+                TestDataPath = GetAbsolutePath("assets/tsv/test-tags.tsv");
                 InceptionTensorFlowModel = GetAbsolutePath("assets/inception/tensorflow_inception_graph.pb");
 
             }
